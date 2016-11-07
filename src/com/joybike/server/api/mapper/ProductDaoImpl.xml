@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.joybike.server.api.dao.ProductDao">
+	<!-- 添加 -->
+	<insert id="insert" parameterType="com.joybike.server.api.model.Product">
+		insert into product values(#{id},#{productCode},#{productName},#{price},#{publishedPrice},#{createId},#{createAt},#{updateId},#{updateAt})
+	</insert>
+	<!-- 查询一个 -->
+	<select id="selectById" resultType="com.joybike.server.api.model.Product" parameterType="java.lang.Long">
+		select id,productCode,productName,price,publishedPrice,createId,createAt,updateId,updateAt
+			from product where id=#{id}
+	</select>
+	<!-- 查所有  -->
+	<select id="selectAll" resultType="com.joybike.server.api.model.Product">
+		select id,productCode,productName,price,publishedPrice,createId,createAt,updateId,updateAt
+			from product
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="com.joybike.server.api.model.Product">
+		update product set id=#{id},productCode=#{productCode},productName=#{productName},price=#{price},publishedPrice=#{publishedPrice},createId=#{createId},createAt=#{createAt},updateId=#{updateId},updateAt=#{updateAt}
+			where id=#{id}
+	</update>
+	<!-- 删除一个 -->
+	<delete id="delectById" parameterType="java.lang.Long">
+		delete from product where id=#{id}
+	</delete>
+</mapper>
