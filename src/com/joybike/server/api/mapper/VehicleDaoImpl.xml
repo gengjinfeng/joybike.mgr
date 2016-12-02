@@ -2,12 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.joybike.server.api.dao.VehicleDao">
 	<!-- 批量插入 -->
-	<insert id="beachInert" parameterType="java.util.List">
+	<insert id="batchInert" parameterType="java.util.List">
 	    insert into vehicle (id,vehicleId,lockId,bundlingPhone,agentId,status,useStatus,lastDimension,lastLongitude,vehicleImg,remark,createAt,updateAt)values
 	    <foreach collection="list" item="vehicle" index="index" separator=",">
 	        (#{vehicle.id},#{vehicle.vehicleId},#{vehicle.lockId},#{vehicle.bundlingPhone},#{vehicle.agentId},#{vehicle.status},#{vehicle.useStatus},#{vehicle.lastDimension},#{vehicle.lastLongitude},#{vehicle.vehicleImg},#{vehicle.remark},#{vehicle.createAt},#{vehicle.updateAt})     
 	    </foreach>
 	</insert>
+	<!-- 批量修改 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		update vehicle
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="status =case" suffix="end,">
+				<foreach collection="list" item="vehicle" index="index">
+					<if test="vehicle.status!=null">
+						when id=#{vehicle.id} then #{vehicle.status}
+					</if>
+				</foreach>
+			</trim>
+			<trim prefix="agentId =case" suffix="end,">
+				<foreach collection="list" item="vehicle" index="index">
+					<if test="vehicle.agentId!=null">
+						when id=#{vehicle.id} then #{vehicle.agentId}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		where
+		<foreach collection="list" separator="or" item="vehicle" index="index">
+			id=#{vehicle.id}
+		</foreach>
+	</update>
 	<!-- 添加 -->
 	<insert id="insertVehicle" parameterType="com.joybike.server.api.model.Vehicle">
 		insert into vehicle values(#{id},#{vehicleId},#{lockId},#{bundlingPhone},#{agentId},#{status},#{useStatus},#{lastDimension},#{lastLongitude},#{vehicleImg},#{remark},#{createAt},#{updateAt})
@@ -50,7 +74,7 @@
 	<select id="selectByPage" resultType="com.joybike.server.api.model.Vehicle">
 		<![CDATA[
 			select id,vehicleId,lockId,bundlingPhone,agentId,status,useStatus,lastDimension,lastLongitude,vehicleImg,remark,createAt,updateAt
-			from vehicle where id>(#{perPage}-1)*#{pageSize} order by id limit #{pageSize}
+			from vehicle order by id desc limit #{startSize},#{pageSize}
 		]]>
 	</select>
 </mapper>

@@ -40,7 +40,7 @@
 	<script type="text/javascript">
 	    var map = new AMap.Map('container',{
 	            resizeEnable: true,
-	            zoom: 11,
+	            zoom: 10,
 	            center: [116.401208,39.907771]
 	    });
 	    

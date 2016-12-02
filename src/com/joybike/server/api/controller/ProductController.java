@@ -19,34 +19,64 @@ public class ProductController {
 	//添加
 	@RequestMapping("insert")
 	public String insert(Product product){
-		product.setCreateAt(UnixTimeUtils.now());
-		product.setUpdateAt(UnixTimeUtils.now());
-		productService.insertProduct(product);
-		return "redirect:/product/getAll";
+		try {
+			product.setCreateAt(UnixTimeUtils.now());
+			product.setUpdateAt(UnixTimeUtils.now());
+			productService.insertProduct(product);
+			return "redirect:/product/getAll";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("产品添加失败！");
+		}
 	}
 	//查询
 	@RequestMapping("getOne")
 	public ModelAndView getOne(Long id){
-		Product product=productService.getById(id);
-		return new ModelAndView("jsp/product", "product", product);
+		try {
+			Product product=productService.getById(id);
+			return new ModelAndView("jsp/product", "product", product);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("获取产品信息失败！");
+		}
 	}
 	//查所有
 	@RequestMapping("getAll")
 	public ModelAndView getAll(){
-		List<Product> products=productService.getAll();
-		return new ModelAndView("jsp/products","products",products);
+		try {
+			List<Product> products=productService.getAll();
+			return new ModelAndView("jsp/products","products",products);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("获取产品信息失败！");
+		}
 	}
 	//进入修改
 	@RequestMapping("intoUpdate")
 	public ModelAndView intoUpdate(Long id){
-		Product product=productService.getById(id);
-		return new ModelAndView("jsp/updateProduct", "product", product);
+		try {
+			Product product=productService.getById(id);
+			return new ModelAndView("jsp/updateProduct", "product", product);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("获取产品信息失败！");
+		}
 	}
 	//修改
 	@RequestMapping("update")
 	public String update(Product product){
-		product.setUpdateAt(UnixTimeUtils.now());
-		productService.changeProduct(product);
-		return "redirect:/product/getAll";
+		try {
+			product.setUpdateAt(UnixTimeUtils.now());
+			productService.changeProduct(product);
+			return "redirect:/product/getAll";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new RuntimeException("产品修改失败！");
+		}
 	}
 }

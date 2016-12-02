@@ -5,7 +5,9 @@ import com.joybike.server.api.model.Vehicle;
 
 public interface VehicleService {
 	//批量插入
-	void beachInsert(List<Vehicle> vehicles);
+	void batchInsert(List<Vehicle> vehicles);
+	//批量修改
+	void batchUpdate(List<Vehicle> vehicles);
 	//查所有
 	List<Vehicle> getAll();
 	//查一个

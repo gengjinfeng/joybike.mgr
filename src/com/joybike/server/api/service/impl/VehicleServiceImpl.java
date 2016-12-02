@@ -7,6 +7,7 @@ import com.joybike.server.api.dao.VehicleDao;
 import com.joybike.server.api.model.Vehicle;
 import com.joybike.server.api.service.VehicleService;
 import com.joybike.server.api.util.ReadExcelUtil;
+import com.joybike.server.api.util.UnixTimeUtils;
 
 @Service("VehicleService")
 public class VehicleServiceImpl implements VehicleService {
@@ -56,9 +57,9 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public void beachInsert(List<Vehicle> vehicles) {
+	public void batchInsert(List<Vehicle> vehicles) {
 		// TODO Auto-generated method stub
-		vehicleDao.beachInert(vehicles);
+		vehicleDao.batchInert(vehicles);
 	}
 
 	@Override
@@ -66,20 +67,30 @@ public class VehicleServiceImpl implements VehicleService {
 		// TODO Auto-generated method stub
 		List<List<Vehicle>> result = ReadExcelUtil.readExcel(path);
 		for (List<Vehicle> vehicles : result) {
-			vehicleDao.beachInert(vehicles);
+			vehicleDao.batchInert(vehicles);
 		}
 	}
 
 	@Override
 	public List<Vehicle> getPage(Integer perPage, Integer pageSize) {
 		// TODO Auto-generated method stub
-		return vehicleDao.selectByPage(perPage, pageSize);
+		Integer startSize=(perPage-1)*pageSize;
+		return vehicleDao.selectByPage(startSize, pageSize);
 	}
 
 	@Override
 	public Integer getCount() {
 		// TODO Auto-generated method stub
 		return vehicleDao.getCount();
+	}
+
+	@Override
+	public void batchUpdate(List<Vehicle> vehicles) {
+		// TODO Auto-generated method stub
+		/*for (Vehicle vehicle : vehicles) {
+			System.out.println(UnixTimeUtils.fromUnixTimestamp(vehicle.getUpdateAt()));
+		}*/
+		vehicleDao.batchUpdate(vehicles);
 	}
 
 }

@@ -56,7 +56,7 @@ public class ReadExcelUtil {
 	                vehicle.setLockId(Long.parseLong(df.format(row.getCell(1).getNumericCellValue())));
 	                vehicle.setBundlingPhone(df.format(row.getCell(2).getNumericCellValue()));
 	                vehicle.setAgentId(Integer.parseInt(df.format(row.getCell(3).getNumericCellValue())));
-	                vehicle.setStatus(Integer.parseInt(df.format(row.getCell(4).getNumericCellValue())));
+	                vehicle.setStatus(1);
 	                vehicle.setUseStatus(Integer.parseInt(df.format(row.getCell(5).getNumericCellValue())));
 	                df=new DecimalFormat(".000000");
 	                vehicle.setLastDimension(df.format(row.getCell(6).getNumericCellValue()));
